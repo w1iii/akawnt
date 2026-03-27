@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PortfolioController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Redirect root to home
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/home');
 });
+
+// Pages
+Route::get('/home', [AkawntController::class, 'home']);
+Route::get('/affiliates', [AkawntController::class, 'affiliates']);
+Route::get('/reports', [AkawntController::class, 'reports']);
