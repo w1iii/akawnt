@@ -10,14 +10,4 @@ class AkawntController extends Controller
     {
         return view('home');
     }
-
-    public function affiliates()
-    {
-        return view('affiliates');
-    }
-
-    public function reports()
-    {
-        return view('reports');
-    }
 }
