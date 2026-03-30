@@ -1,7 +1,21 @@
 <section id="contact">
+
+    <!--  THIS CAN BE CHANGED      
+        Right now, contact is basically useless and is a placeholder which should be
+        the apply area for Accountants
+        First: Lets make seeders for accountants and admin login. (Steven knows best)
+        After that we make the Admin page after they successfully log in
+        This section is temporary but everything else on this main page can stay (Unless we want to change the navbar)
+    -->
+
+
+
+
+
     <div class="container">
         <div class="row g-5">
-            {{-- Info --}}
+            
+        <!-- Info -->
             <div class="col-lg-4">
                 <div class="section-label">Contact</div>
                 <h2 class="section-title">Let's talk.</h2>

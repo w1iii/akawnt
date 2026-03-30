@@ -38,7 +38,7 @@
         }
  
         h1, h2, h3, h4, .display-font {
-            font-family: 'Syne', sans-serif;
+            font-family: 'DM Sans', sans-serif;
         }
  
         /*  Navbar*/
@@ -52,7 +52,7 @@
             box-shadow: 0 2px 20px rgba(0,0,0,0.07);
         }
         .navbar-brand {
-            font-family: 'Syne', sans-serif;
+            font-family: 'DM Sans', sans-serif;
             font-weight: 800;
             font-size: 1.35rem;
             color: var(--ink) !important;
@@ -268,7 +268,7 @@
             position: absolute;
             width: 420px; height: 420px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(200,75,49,0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(182, 49, 200, 0.08) 0%, transparent 70%);
             right: -80px; top: 50%;
             transform: translateY(-50%);
             pointer-events: none;

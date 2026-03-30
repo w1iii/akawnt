@@ -18,7 +18,7 @@
                 <h2 class="section-title">An affiliate firm<br> that loves what we do.</h2>
                 <div class="section-divider"></div>
                 <p class="text-muted mb-4">
-                    Founded with a passion for helping businesses and freelancers,
+                    Founded with a passion for helping businesses local and freelancers,
                     we've grown into a team of accountants, CPA's, and auditors
                     united by a single belief; Great work starts with great people.
                 </p>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon"><i class="bi bi-shield-check"></i></div>
+                    <div class="feature-icon"><i class="bi bi-shield-check-fill"></i></div>
                     <div>
                         <div class="feature-title">Trusted & Reliable</div>
                         <div class="feature-desc">We build long term relationships by delivering accurate results and maintaining the highest standards of financial integrity.</div>

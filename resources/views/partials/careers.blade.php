@@ -10,6 +10,8 @@
             </p>
         </div>
 
+
+        <!-- This can be seeded as well -->
         <div class="row g-4">
             @foreach([
                 ['Full-Time', 'Certified Public Accountant (CPA)', 'Accounting', 'Prepare financial statements, ensure regulatory compliance, and manage client tax filings with accuracy.'],
