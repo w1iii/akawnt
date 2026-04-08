@@ -100,7 +100,10 @@
 <body>
     <nav class="navbar navbar-expand-lg dashboard-nav">
         <div class="container">
-            <a class="navbar-brand" href="{{ route('home') }}">Akaw<span>nt</span></a>
+            @php
+                $dashboardRoute = Auth::user()->role === 'admin' ? 'admin.dashboard' : 'applicant.dashboard';
+            @endphp
+            <a class="navbar-brand" href="{{ route($dashboardRoute) }}">Akaw<span>nt</span></a>
 
             <div class="dropdown user-dropdown ms-auto">
                 <a href="#" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

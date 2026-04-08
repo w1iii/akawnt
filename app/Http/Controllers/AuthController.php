@@ -122,11 +122,19 @@ class AuthController extends Controller
      */
     public function logout(Request $request)
     {
+        // Get user role before logging out
+        $userRole = Auth::user()?->role;
+
         Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Redirect to appropriate login page based on user role
+        if ($userRole === 'admin') {
+            return redirect()->route('admin.login');
+        }
+
+        return redirect()->route('login');
     }
 }
