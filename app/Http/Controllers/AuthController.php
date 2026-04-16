@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\AdminWhitelist;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,33 +11,21 @@ use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-    /**
-     * Show admin login form
-     */
     public function showAdminLogin()
     {
         return view('auth.admin-login');
     }
 
-    /**
-     * Show applicant login form
-     */
     public function showApplicantLogin()
     {
         return view('auth.applicant-login');
     }
 
-    /**
-     * Show admin registration form
-     */
     public function showAdminRegister()
     {
         return view('auth.admin-register');
     }
 
-    /**
-     * Handle admin login
-     */
     public function adminLogin(Request $request)
     {
         $credentials = $request->validate([
@@ -45,11 +33,7 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt([
-            'email' => $credentials['email'],
-            'password' => $credentials['password'],
-            'role' => 'admin',
-        ])) {
+        if (Auth::guard('admin')->attempt($credentials)) {
             $request->session()->regenerate();
 
             return redirect()->route('admin.dashboard');
@@ -60,9 +44,6 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Handle applicant login
-     */
     public function applicantLogin(Request $request)
     {
         $credentials = $request->validate([
@@ -85,18 +66,14 @@ class AuthController extends Controller
         ]);
     }
 
-    /**
-     * Handle admin registration
-     */
     public function adminRegister(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
+            'email' => 'required|email|unique:admins',
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Check if email is whitelisted
         $whitelisted = AdminWhitelist::where('email', $request->email)->exists();
 
         if (! $whitelisted) {
@@ -105,33 +82,31 @@ class AuthController extends Controller
             ]);
         }
 
-        $user = User::create([
+        $admin = Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role' => 'admin',
         ]);
 
-        Auth::login($user);
+        Auth::guard('admin')->login($admin);
 
         return redirect()->route('admin.dashboard');
     }
 
-    /**
-     * Handle logout
-     */
     public function logout(Request $request)
     {
-        // Get user role before logging out
-        $userRole = Auth::user()?->role;
+        $guard = Auth::guard('admin')->check() ? 'admin' : null;
 
-        Auth::logout();
+        if ($guard === 'admin') {
+            Auth::guard('admin')->logout();
+        } else {
+            Auth::logout();
+        }
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        // Redirect to appropriate login page based on user role
-        if ($userRole === 'admin') {
+        if ($guard === 'admin') {
             return redirect()->route('admin.login');
         }
 
