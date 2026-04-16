@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.admin')
 
 @section('title', 'Admin Dashboard')
 
@@ -25,14 +25,6 @@
         <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
-                    <h5 class="card-title">Total Applications</h5>
-                    <h2 class="text-primary">{{ $stats['total'] }}</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card text-center">
-                <div class="card-body">
                     <h5 class="card-title">Pending</h5>
                     <h2 class="text-warning">{{ $stats['pending'] }}</h2>
                 </div>
@@ -54,7 +46,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3 mt-2">
+        <div class="col-md-3">
             <div class="card text-center">
                 <div class="card-body">
                     <h5 class="card-title">Declined</h5>
@@ -65,8 +57,11 @@
     </div>
 
     <!-- Search and Filter -->
-    <div class="card mb-4">
+    <div class="card mb-3">
         <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <small class="text-muted">Total: {{ $stats['total'] }} applications</small>
+            </div>
             <form method="GET" class="row g-3">
                 <div class="col-md-6">
                     <input type="text" name="search" class="form-control" placeholder="Search by email or name..." value="{{ request('search') }}">
