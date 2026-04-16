@@ -56,6 +56,34 @@
         </div>
     </div>
 
+    <!-- Management Links -->
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Accountant Management</h5>
+                    <p class="card-text">Manage accountant users and their applications</p>
+                    <h3 class="text-primary">{{ $stats['accountants'] }}</h3>
+                    <p class="text-muted">Active Accountants</p>
+                    <a href="{{ route('admin.accountants.index') }}" class="btn btn-primary">
+                        <i class="bi bi-calculator me-2"></i>Manage Accountants
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Admin Management</h5>
+                    <p class="card-text">Manage administrator accounts</p>
+                    <a href="{{ route('admin.management.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-people me-2"></i>Manage Admins
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Search and Filter -->
     <div class="card mb-3">
         <div class="card-body">

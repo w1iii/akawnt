@@ -212,6 +212,12 @@
                     <span>Admin Management</span>
                 </a>
             </li>
+            <li class="sidebar-nav-item">
+                <a href="{{ route('admin.accountants.index') }}" class="sidebar-nav-link {{ request()->routeIs('admin.accountants.*') ? 'active' : '' }}">
+                    <i class="bi bi-calculator"></i>
+                    <span>Accountant Management</span>
+                </a>
+            </li>
         </ul>
     </aside>
 

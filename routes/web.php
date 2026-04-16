@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AccountantController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AkawntController;
@@ -65,6 +66,15 @@ Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->gro
     Route::get('/management/{admin}/edit', [AdminController::class, 'edit'])->name('management.edit');
     Route::put('/management/{admin}', [AdminController::class, 'update'])->name('management.update');
     Route::delete('/management/{admin}', [AdminController::class, 'destroy'])->name('management.destroy');
+
+    // Accountant Management
+    Route::get('/accountants', [AccountantController::class, 'index'])->name('accountants.index');
+    Route::get('/accountants/create', [AccountantController::class, 'create'])->name('accountants.create');
+    Route::post('/accountants', [AccountantController::class, 'store'])->name('accountants.store');
+    Route::get('/accountants/{accountant}', [AccountantController::class, 'show'])->name('accountants.show');
+    Route::get('/accountants/{accountant}/edit', [AccountantController::class, 'edit'])->name('accountants.edit');
+    Route::put('/accountants/{accountant}', [AccountantController::class, 'update'])->name('accountants.update');
+    Route::delete('/accountants/{accountant}', [AccountantController::class, 'destroy'])->name('accountants.destroy');
 });
 
 // Applicant Routes

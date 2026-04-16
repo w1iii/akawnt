@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobApplication;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -38,6 +39,7 @@ class DashboardController extends Controller
             'reviewing' => JobApplication::where('status', 'reviewing')->count(),
             'accepted' => JobApplication::where('status', 'accepted')->count(),
             'declined' => JobApplication::where('status', 'declined')->count(),
+            'accountants' => User::where('role', 'accountant')->count(),
         ];
 
         return view('admin.dashboard', compact('applications', 'stats'));
