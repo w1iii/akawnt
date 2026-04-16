@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\AkawntController;
 use App\Http\Controllers\Applicant\DashboardController as ApplicantDashboardController;
@@ -44,16 +45,24 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'applicantLogin'])->name('login.submit');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:admin')->name('logout');
 
 // Admin Routes
-Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     Route::get('/applications/{application}', [AdminDashboardController::class, 'show'])->name('application.show');
     Route::post('/applications/{application}/accept', [ApplicationController::class, 'accept'])->name('application.accept');
     Route::post('/applications/{application}/decline', [ApplicationController::class, 'decline'])->name('application.decline');
     Route::post('/applications/{application}/review', [ApplicationController::class, 'review'])->name('application.review');
     Route::get('/applications/{application}/resume', [ApplicationController::class, 'downloadResume'])->name('application.download-resume');
+
+    // Admin Management
+    Route::get('/management', [AdminController::class, 'index'])->name('management.index');
+    Route::get('/management/create', [AdminController::class, 'create'])->name('management.create');
+    Route::post('/management', [AdminController::class, 'store'])->name('management.store');
+    Route::get('/management/{admin}/edit', [AdminController::class, 'edit'])->name('management.edit');
+    Route::put('/management/{admin}', [AdminController::class, 'update'])->name('management.update');
+    Route::delete('/management/{admin}', [AdminController::class, 'destroy'])->name('management.destroy');
 });
 
 // Applicant Routes
