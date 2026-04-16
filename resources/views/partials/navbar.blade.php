@@ -16,6 +16,25 @@
                 <li class="nav-item"><a class="nav-link active" href="#home">Home</a></li>
                 <li class="nav-item"><a class="nav-link" href="#about">About Us</a></li>
                 <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                @if(Auth::guard('admin')->check())
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link nav-cta" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+                    </li>
+                @elseif(Auth::check())
+                    <li class="nav-item ms-lg-2">
+                        <a class="nav-link nav-cta" href="{{ route('applicant.dashboard') }}">Dashboard</a>
+                    </li>
+                @else
+                    <li class="nav-item dropdown ms-lg-2">
+                        <a class="nav-link nav-cta dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Login
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="loginDropdown">
+                            <li><a class="dropdown-item" href="{{ route('login') }}">Applicant Login</a></li>
+                            <li><a class="dropdown-item" href="{{ route('admin.login') }}">Admin Login</a></li>
+                        </ul>
+                    </li>
+                @endif
                 <li class="nav-item ms-lg-2">
                     <a class="nav-link nav-cta" href="#careers">Apply Now</a>
                 </li>
