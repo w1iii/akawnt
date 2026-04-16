@@ -12,9 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Role column already exists, so we'll skip this migration
-            // The column has enum('admin','accountant') but we need enum('admin','applicant')
-            // We can update the enum in a separate migration if needed
+            $table->enum('role', ['admin', 'accountant'])->default('accountant')->after('password');
         });
     }
 
