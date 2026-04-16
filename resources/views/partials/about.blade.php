@@ -38,7 +38,7 @@
                     </div>
                 </div>
                 <div class="feature-item">
-                    <div class="feature-icon"><i class="bi bi-shield-check-fill"></i></div>
+                    <div class="feature-icon"><i class="bi bi-shield-fill-check"></i></div>
                     <div>
                         <div class="feature-title">Trusted & Reliable</div>
                         <div class="feature-desc">We build long term relationships by delivering accurate results and maintaining the highest standards of financial integrity.</div>
