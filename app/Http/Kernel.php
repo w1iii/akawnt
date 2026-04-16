@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminGuest;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\ApplicantMiddleware;
 use App\Http\Middleware\Authenticate;
@@ -89,5 +90,6 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
         'admin' => AdminMiddleware::class,
         'applicant' => ApplicantMiddleware::class,
+        'admin.guest' => AdminGuest::class,
     ];
 }

@@ -28,7 +28,10 @@
                         <p>{{ Auth::user()->created_at->format('M d, Y') }}</p>
                     </div>
 
-                    <a href="#" class="btn btn-primary">Edit Profile & Change Password</a>
+                    <div class="d-flex gap-2 flex-wrap">
+                        <a href="{{ route('applicant.profile.edit') }}" class="btn btn-primary">Edit Profile</a>
+                        <a href="{{ route('applicant.password.change') }}" class="btn btn-outline-primary">Change Password</a>
+                    </div>
                 </div>
             </div>
         </div>

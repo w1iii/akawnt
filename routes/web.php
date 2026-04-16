@@ -33,13 +33,15 @@ Route::get('/reports', [AkawntController::class, 'reports'])->name('reports');
 Route::post('/apply', [ApplicationController::class, 'store'])->name('apply.store');
 
 // Authentication Routes
-Route::middleware('guest')->group(function () {
+Route::middleware('admin.guest')->group(function () {
     // Admin Auth
     Route::get('/admin/login', [AuthController::class, 'showAdminLogin'])->name('admin.login');
     Route::post('/admin/login', [AuthController::class, 'adminLogin'])->name('admin.login.submit');
     Route::get('/admin/register', [AuthController::class, 'showAdminRegister'])->name('admin.register');
     Route::post('/admin/register', [AuthController::class, 'adminRegister'])->name('admin.register.submit');
+});
 
+Route::middleware('guest')->group(function () {
     // Applicant Auth
     Route::get('/login', [AuthController::class, 'showApplicantLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'applicantLogin'])->name('login.submit');
@@ -68,4 +70,8 @@ Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->gro
 // Applicant Routes
 Route::middleware(['auth', 'applicant'])->prefix('dashboard')->name('applicant.')->group(function () {
     Route::get('/', [ApplicantDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile/edit', [ApplicantDashboardController::class, 'editProfile'])->name('profile.edit');
+    Route::put('/profile', [ApplicantDashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/password/change', [ApplicantDashboardController::class, 'changePassword'])->name('password.change');
+    Route::put('/password', [ApplicantDashboardController::class, 'updatePassword'])->name('password.update');
 });
