@@ -142,6 +142,7 @@
 
         .main-content {
             padding: 2rem;
+            padding-top: 70px;
             flex: 1;
         }
 

@@ -1,10 +1,10 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('title', 'Application Details')
 
 @section('content')
 <div class="container mt-5">
-    <div class="mb-4">
+    <div class="mb-5">
         <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
     </div>
 
