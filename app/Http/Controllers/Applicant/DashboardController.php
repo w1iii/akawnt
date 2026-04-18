@@ -27,6 +27,7 @@ class DashboardController extends Controller
     public function editProfile()
     {
         $user = Auth::user();
+
         return view('applicant.edit-profile', compact('user'));
     }
 
@@ -37,7 +38,7 @@ class DashboardController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . Auth::id(),
+            'email' => 'required|email|unique:users,email,'.Auth::id(),
         ]);
 
         Auth::user()->update($request->only(['name', 'email']));
@@ -53,6 +54,16 @@ class DashboardController extends Controller
         return view('applicant.change-password');
     }
 
+    public function clients()
+    {
+        return view('applicant.clients');
+    }
+
+    public function reports()
+    {
+        return view('applicant.reports');
+    }
+
     /**
      * Update password
      */
@@ -65,7 +76,7 @@ class DashboardController extends Controller
 
         $user = Auth::user();
 
-        if (!Hash::check($request->current_password, $user->password)) {
+        if (! Hash::check($request->current_password, $user->password)) {
             return back()->withErrors(['current_password' => 'Current password is incorrect.']);
         }
 
