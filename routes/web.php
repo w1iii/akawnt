@@ -80,6 +80,8 @@ Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->gro
 // Applicant Routes
 Route::middleware(['auth', 'applicant'])->prefix('dashboard')->name('applicant.')->group(function () {
     Route::get('/', [ApplicantDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/clients', [ApplicantDashboardController::class, 'clients'])->name('clients');
+    Route::get('/reports', [ApplicantDashboardController::class, 'reports'])->name('reports');
     Route::get('/profile/edit', [ApplicantDashboardController::class, 'editProfile'])->name('profile.edit');
     Route::put('/profile', [ApplicantDashboardController::class, 'updateProfile'])->name('profile.update');
     Route::get('/password/change', [ApplicantDashboardController::class, 'changePassword'])->name('password.change');
