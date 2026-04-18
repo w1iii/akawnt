@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.applicant')
 
 @section('title', 'Edit Profile')
 
