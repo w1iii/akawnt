@@ -120,13 +120,13 @@
                     </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
-                        <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <a class="dropdown-item" href="{{ Auth::user()->role === 'admin' ? route('admin.logout') : route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="bi bi-box-arrow-right me-2"></i>Logout
                         </a>
                     </li>
                 </ul>
             </div>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+            <form id="logout-form" action="{{ Auth::user()->role === 'admin' ? route('admin.logout') : route('logout') }}" method="POST" style="display: none;">
                 @csrf
             </form>
         </div>

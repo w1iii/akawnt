@@ -48,7 +48,8 @@ Route::middleware('guest')->group(function () {
     Route::post('/login', [AuthController::class, 'applicantLogin'])->name('login.submit');
 });
 
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:admin')->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:web')->name('logout');
+Route::post('/admin/logout', [AuthController::class, 'logout'])->middleware('auth:admin')->name('admin.logout');
 
 // Admin Routes
 Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -81,7 +82,15 @@ Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->gro
 Route::middleware(['auth', 'applicant'])->prefix('dashboard')->name('applicant.')->group(function () {
     Route::get('/', [ApplicantDashboardController::class, 'index'])->name('dashboard');
     Route::get('/clients', [ApplicantDashboardController::class, 'clients'])->name('clients');
+    Route::post('/clients', [ApplicantDashboardController::class, 'storeClient'])->name('clients.store');
+    Route::get('/clients/{client}', [ApplicantDashboardController::class, 'showClient'])->name('clients.show');
+    Route::get('/clients/{client}/edit', [ApplicantDashboardController::class, 'editClient'])->name('clients.edit');
+    Route::put('/clients/{client}', [ApplicantDashboardController::class, 'updateClient'])->name('clients.update');
+    Route::delete('/clients/{client}', [ApplicantDashboardController::class, 'destroyClient'])->name('clients.destroy');
+    Route::post('/clients/{client}/activities', [ApplicantDashboardController::class, 'storeActivity'])->name('clients.activities.store');
     Route::get('/reports', [ApplicantDashboardController::class, 'reports'])->name('reports');
+    Route::get('/reports/download', [ApplicantDashboardController::class, 'downloadReport'])->name('reports.download');
+    Route::get('/settings', [ApplicantDashboardController::class, 'settings'])->name('settings');
     Route::get('/profile/edit', [ApplicantDashboardController::class, 'editProfile'])->name('profile.edit');
     Route::put('/profile', [ApplicantDashboardController::class, 'updateProfile'])->name('profile.update');
     Route::get('/password/change', [ApplicantDashboardController::class, 'changePassword'])->name('password.change');

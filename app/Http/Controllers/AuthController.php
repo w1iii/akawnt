@@ -95,20 +95,18 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        $guard = Auth::guard('admin')->check() ? 'admin' : null;
+        $routeName = $request->route()->getName();
 
-        if ($guard === 'admin') {
+        if ($routeName === 'admin.logout') {
             Auth::guard('admin')->logout();
-        } else {
-            Auth::logout();
+
+            return redirect()->route('admin.login');
         }
+
+        Auth::logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
-        if ($guard === 'admin') {
-            return redirect()->route('admin.login');
-        }
 
         return redirect()->route('login');
     }
