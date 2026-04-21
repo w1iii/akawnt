@@ -5,7 +5,25 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>@yield('title', 'Akawnt - The Fiscal Atelier')</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    if (!document.startViewTransition) return;
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', e => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('/') && !link.hasAttribute('download')) {
+                e.preventDefault();
+                document.startViewTransition(() => window.location.href = href);
+            }
+        });
+    });
+});
+</script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.view-transition-enter { animation: fadeIn 0.4s ease-out forwards; }
+</style>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
