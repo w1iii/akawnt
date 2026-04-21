@@ -1,123 +1,123 @@
 @extends('layouts.admin')
 
-@section('title', 'View Accountant')
+@section('title', 'Accountant Details')
 
 @section('content')
-<div class="page-header">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>{{ $accountant->name }}</h1>
+<div class="space-y-8">
+    <div class="flex justify-between items-end">
         <div>
-            <a href="{{ route('admin.accountants.edit', $accountant) }}" class="btn btn-warning">
-                <i class="bi bi-pencil me-2"></i>Edit Accountant
+            <p class="text-label-sm text-on-surface-variant tracking-[0.1em] uppercase font-semibold mb-1">Accountant</p>
+            <h2 class="text-4xl font-extrabold text-primary tracking-tight">{{ $accountant->name }}</h2>
+        </div>
+        <div class="flex gap-3">
+            <a href="{{ route('admin.accountants.edit', $accountant) }}" class="button button-warning">
+                <span class="material-symbols-outlined">edit</span>
+                Edit
             </a>
-            <a href="{{ route('admin.accountants.index') }}" class="btn btn-secondary">
-                <i class="bi bi-arrow-left me-2"></i>Back to List
+            <a href="{{ route('admin.accountants.index') }}" class="button button-secondary">
+                <span class="material-symbols-outlined">arrow_back</span>
+                Back
             </a>
         </div>
     </div>
-</div>
 
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
+    @if(session('success'))
+        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg flex items-center gap-2">
+            <span class="material-symbols-outlined text-green-600">check_circle</span>
+            {{ session('success') }}
+        </div>
+    @endif
 
-<div class="row">
-    <div class="col-md-8">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Accountant Information</h5>
-            </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Name:</strong></div>
-                    <div class="col-sm-9">{{ $accountant->name }}</div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-symbols-outlined text-primary">person</span>
+                    <h3 class="text-lg font-bold text-on-surface">Accountant Information</h3>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Email:</strong></div>
-                    <div class="col-sm-9">{{ $accountant->email }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Role:</strong></div>
-                    <div class="col-sm-9">
-                        <span class="badge bg-primary">{{ ucfirst($accountant->role) }}</span>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Name</p>
+                        <p class="font-bold text-on-surface">{{ $accountant->name }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Email</p>
+                        <p class="font-bold text-on-surface">{{ $accountant->email }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Role</p>
+                        <span class="inline-flex items-center gap-1 text-xs font-bold text-primary bg-primary-container px-2 py-1 rounded-full">
+                            {{ ucfirst($accountant->role) }}
+                        </span>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Member Since</p>
+                        <p class="font-bold text-on-surface">{{ $accountant->created_at->format('M d, Y') }}</p>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Member Since:</strong></div>
-                    <div class="col-sm-9">{{ $accountant->created_at->format('M d, Y \a\t h:i A') }}</div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-sm-3"><strong>Last Updated:</strong></div>
-                    <div class="col-sm-9">{{ $accountant->updated_at->format('M d, Y \a\t h:i A') }}</div>
-                </div>
             </div>
-        </div>
 
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="mb-0">Job Applications</h5>
-            </div>
-            <div class="card-body">
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-symbols-outlined text-primary">work</span>
+                    <h3 class="text-lg font-bold text-on-surface">Job Applications</h3>
+                </div>
+                
                 @if($accountant->jobApplications->count() > 0)
-                    <div class="table-responsive">
-                        <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Position</th>
-                                    <th>Status</th>
-                                    <th>Applied Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($accountant->jobApplications as $application)
-                                    <tr>
-                                        <td>{{ $application->position }}</td>
-                                        <td>
-                                            @if($application->status === 'pending')
-                                                <span class="badge bg-warning">Pending</span>
-                                            @elseif($application->status === 'reviewing')
-                                                <span class="badge bg-info">Reviewing</span>
-                                            @elseif($application->status === 'accepted')
-                                                <span class="badge bg-success">Accepted</span>
-                                            @else
-                                                <span class="badge bg-danger">Declined</span>
-                                            @endif
-                                        </td>
-                                        <td>{{ $application->created_at->format('M d, Y') }}</td>
-                                        <td>
-                                            <a href="{{ route('admin.application.show', $application) }}" class="btn btn-sm btn-info">View</a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+                    <div class="space-y-3">
+                        @foreach($accountant->jobApplications as $application)
+                            <div class="flex items-center justify-between p-4 bg-surface-container rounded-lg">
+                                <div>
+                                    <p class="font-bold text-on-surface">{{ $application->position }}</p>
+                                    <p class="text-sm text-on-surface-variant">{{ $application->created_at->format('M d, Y') }}</p>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                    @if($application->status === 'pending')
+                                        <span class="inline-flex items-center gap-1 text-xs font-bold text-yellow-600 bg-yellow-50 px-2 py-1 rounded-full">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-yellow-600"></span> Pending
+                                        </span>
+                                    @elseif($application->status === 'reviewing')
+                                        <span class="inline-flex items-center gap-1 text-xs font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded-full">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600"></span> Reviewing
+                                        </span>
+                                    @elseif($application->status === 'accepted')
+                                        <span class="inline-flex items-center gap-1 text-xs font-bold text-green-600 bg-green-50 px-2 py-1 rounded-full">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-green-600"></span> Accepted
+                                        </span>
+                                    @else
+                                        <span class="inline-flex items-center gap-1 text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded-full">
+                                            <span class="w-1.5 h-1.5 rounded-full bg-red-600"></span> Declined
+                                        </span>
+                                    @endif
+                                    <a href="{{ route('admin.application.show', $application) }}" class="button button-info text-xs py-2 px-3">View</a>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 @else
-                    <p class="text-muted mb-0">No job applications found for this accountant.</p>
+                    <p class="text-on-surface-variant text-center py-4">No job applications found for this accountant.</p>
                 @endif
             </div>
         </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="mb-0">Quick Actions</h5>
-            </div>
-            <div class="card-body">
-                <div class="d-grid gap-2">
-                    <a href="{{ route('admin.accountants.edit', $accountant) }}" class="btn btn-warning">
-                        <i class="bi bi-pencil me-2"></i>Edit Accountant
+        <div class="space-y-6">
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-symbols-outlined text-primary">flash_on</span>
+                    <h3 class="text-lg font-bold text-on-surface">Quick Actions</h3>
+                </div>
+                <div class="space-y-3">
+                    <a href="{{ route('admin.accountants.edit', $accountant) }}" class="button button-warning w-full justify-between">
+                        <span class="flex items-center gap-2"><span class="material-symbols-outlined">edit</span> Edit Accountant</span>
+                        <span class="material-symbols-outlined">chevron_right</span>
                     </a>
-                    <form action="{{ route('admin.accountants.destroy', $accountant) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this accountant? This action cannot be undone.');">
+                    <form action="{{ route('admin.accountants.destroy', $accountant) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this accountant? This action cannot be undone.');" class="w-full">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-danger">
-                            <i class="bi bi-trash me-2"></i>Delete Accountant
+                        <button type="submit" class="button button-danger w-full justify-between">
+                            <span class="flex items-center gap-2"><span class="material-symbols-outlined">delete</span> Delete Accountant</span>
+                            <span class="material-symbols-outlined">chevron_right</span>
                         </button>
                     </form>
                 </div>

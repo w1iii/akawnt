@@ -4,9 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>@yield('title', 'Akawnt - The Fiscal Atelier')</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 <script>
@@ -122,34 +120,6 @@
     .button-secondary:hover {
         background-color: #d9e4ea;
     }
-    .button-success {
-        background-color: #48bb78;
-        color: white;
-    }
-    .button-success:hover {
-        background-color: #38a169;
-    }
-    .button-danger {
-        background-color: #e53e3e;
-        color: white;
-    }
-    .button-danger:hover {
-        background-color: #c53030;
-    }
-    .button-warning {
-        background-color: #ed8936;
-        color: white;
-    }
-    .button-warning:hover {
-        background-color: #dd6b20;
-    }
-    .button-info {
-        background-color: #3181c8;
-        color: white;
-    }
-    .button-info:hover {
-        background-color: #2b6cb0;
-    }
 </style>
 </head>
 <body class="text-on-surface bg-background">
@@ -164,25 +134,21 @@
 </div>
 </div>
 <nav class="flex-1 space-y-1">
-<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('admin.dashboard')) active @endif" href="{{ route('admin.dashboard') }}">
+<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('applicant.dashboard')) active @endif" href="{{ route('applicant.dashboard') }}">
 <span class="material-symbols-outlined">dashboard</span>
 <span>Dashboard</span>
 </a>
-<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('admin.applications*')) active @endif" href="{{ route('admin.applications.index') }}">
-<span class="material-symbols-outlined">assignment</span>
-<span>Applications</span>
-</a>
-<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('admin.management*')) active @endif" href="{{ route('admin.management.index') }}">
-<span class="material-symbols-outlined">admin_panel_settings</span>
-<span>Admin Management</span>
-</a>
-<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('admin.accountants*')) active @endif" href="{{ route('admin.accountants.index') }}">
+<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('applicant.clients*')) active @endif" href="{{ route('applicant.clients') }}">
 <span class="material-symbols-outlined">group</span>
-<span>Accountants</span>
+<span>Clients</span>
 </a>
-<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('admin.reports*')) active @endif" href="{{ route('admin.reports.index') }}">
-<span class="material-symbols-outlined">description</span>
+<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('applicant.reports*')) active @endif" href="{{ route('applicant.reports') }}">
+<span class="material-symbols-outlined">bar_chart</span>
 <span>Reports</span>
+</a>
+<a class="sidebar-link flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-slate-700 hover:bg-slate-200/50 transition-colors duration-200 rounded-lg @if(request()->routeIs('applicant.settings*')) active @endif" href="{{ route('applicant.settings') }}">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
 </a>
 </nav>
 <div class="pt-6 border-t border-slate-200 space-y-3">
@@ -192,14 +158,14 @@
 </a>
 <div class="flex items-center gap-3 px-4 py-3">
 <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">{{ substr(Auth::guard('admin')->user()->name ?? Auth::user()->name, 0, 1) }}</span>
+<span class="material-symbols-outlined text-primary">{{ substr(Auth::user()->name, 0, 1) }}</span>
 </div>
 <div class="overflow-hidden flex-1">
-<p class="text-xs font-bold text-slate-900 truncate">{{ Auth::guard('admin')->user()->name ?? 'Admin' }}</p>
-<p class="text-[10px] text-slate-500 truncate">Administrator</p>
+<p class="text-xs font-bold text-slate-900 truncate">{{ Auth::user()->name }}</p>
+<p class="text-[10px] text-slate-500 truncate">Accountant</p>
 </div>
 </div>
-<form method="POST" action="{{ route('admin.logout') }}">
+<form method="POST" action="{{ route('logout') }}">
 @csrf
 <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 text-red-600 hover:bg-red-50 transition-colors duration-200 rounded-lg">
 <span class="material-symbols-outlined">logout</span>
@@ -213,7 +179,7 @@
 <div class="flex items-center flex-1 max-w-xl">
 <div class="relative w-full group">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
-<input class="w-full bg-surface-container-highest/50 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-slate-200 transition-all outline-none" placeholder="Search applications, users..." type="text"/>
+<input class="w-full bg-surface-container-highest/50 border-none rounded-full py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-slate-200 transition-all outline-none" placeholder="Search clients, reports, or invoices..." type="text"/>
 </div>
 </div>
 <div class="flex items-center gap-6">
@@ -232,5 +198,7 @@
 @yield('content')
 </div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

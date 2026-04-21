@@ -3,138 +3,142 @@
 @section('title', 'Application Details')
 
 @section('content')
-<div class="container mt-5">
-    <div class="mb-5">
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
-<div class="page-header">
-    <h1>Application Details</h1>
-</div>
-
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-    </div>
-@endif
-
-<div class="row">
-    <div class="col-lg-8">
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <h6 class="text-muted">First Name</h6>
-                        <p>{{ $application->first_name }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-muted">Last Name</h6>
-                        <p>{{ $application->last_name }}</p>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <h6 class="text-muted">Email</h6>
-                        <p><a href="mailto:{{ $application->email }}">{{ $application->email }}</a></p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-muted">Phone</h6>
-                        <p><a href="tel:{{ $application->phone }}">{{ $application->phone }}</a></p>
-                    </div>
-                </div>
-
-                <div class="row mb-3">
-                    <div class="col-md-6">
-                        <h6 class="text-muted">Position Applied For</h6>
-                        <p>{{ $application->position }}</p>
-                    </div>
-                    <div class="col-md-6">
-                        <h6 class="text-muted">Applied Date</h6>
-                        <p>{{ $application->created_at->format('M d, Y h:i A') }}</p>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="mb-3">
-                    <h6 class="text-muted">Cover Letter / Message</h6>
-                    <p>{{ $application->message }}</p>
-                </div>
-
-                @if($application->resume_path)
-                    <div class="mb-3">
-                        <h6 class="text-muted">Resume</h6>
-                        <p>
-                            <a href="{{ route('admin.application.download-resume', $application) }}" class="btn btn-primary" target="_blank">
-                                <i class="bi bi-download me-2"></i>Download Resume
-                            </a>
-                        </p>
-                    </div>
-                @endif
-            </div>
+<div class="space-y-8">
+    <div class="flex justify-between items-end">
+        <div>
+            <p class="text-label-sm text-on-surface-variant tracking-[0.1em] uppercase font-semibold mb-1">Application</p>
+            <h2 class="text-4xl font-extrabold text-primary tracking-tight">Application Details</h2>
         </div>
+        <a href="{{ route('admin.dashboard') }}" class="button button-secondary">
+            <span class="material-symbols-outlined">arrow_back</span>
+            Back
+        </a>
     </div>
 
-    <div class="col-lg-4">
-        <div class="card mb-4">
-            <div class="card-body">
-                <div class="mb-3">
-                    <h6 class="text-muted">Current Status</h6>
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-symbols-outlined text-primary">description</span>
+                    <h3 class="text-lg font-bold text-on-surface">Application Details</h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">First Name</p>
+                        <p class="font-bold text-on-surface">{{ $application->first_name }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Last Name</p>
+                        <p class="font-bold text-on-surface">{{ $application->last_name }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Email</p>
+                        <p class="font-bold text-on-surface">{{ $application->email }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Phone</p>
+                        <p class="font-bold text-on-surface">{{ $application->phone }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Position</p>
+                        <p class="font-bold text-on-surface">{{ $application->position }}</p>
+                    </div>
+                    <div class="p-4 bg-surface-container rounded-lg">
+                        <p class="text-xs text-on-surface-variant mb-1">Applied Date</p>
+                        <p class="font-bold text-on-surface">{{ $application->created_at->format('M d, Y') }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-symbols-outlined text-primary">mail</span>
+                    <h3 class="text-lg font-bold text-on-surface">Cover Letter</h3>
+                </div>
+                <p class="text-on-surface-variant whitespace-pre-wrap">{{ $application->message }}</p>
+            </div>
+
+            @if($application->resume_path)
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="material-symbols-outlined text-primary">attach_file</span>
+                    <h3 class="text-lg font-bold text-on-surface">Resume</h3>
+                </div>
+                <a href="{{ route('admin.application.download-resume', $application) }}" class="button button-primary" target="_blank">
+                    <span class="material-symbols-outlined">download</span>
+                    Download Resume
+                </a>
+            </div>
+            @endif
+        </div>
+
+        <div class="space-y-6">
+            <div class="bg-surface-container-lowest p-6 rounded-xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="material-symbols-outlined text-primary">fact_check</span>
+                    <h3 class="text-lg font-bold text-on-surface">Status</h3>
+                </div>
+                
+                <div class="mb-6">
+                    <p class="text-xs text-on-surface-variant mb-2">Current Status</p>
                     @if($application->status === 'pending')
-                        <span class="badge bg-warning p-2">Pending</span>
+                        <span class="inline-flex items-center gap-1 text-sm font-bold text-yellow-600 bg-yellow-50 px-3 py-1.5 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-yellow-600"></span> Pending
+                        </span>
                     @elseif($application->status === 'reviewing')
-                        <span class="badge bg-info p-2">Reviewing</span>
+                        <span class="inline-flex items-center gap-1 text-sm font-bold text-blue-600 bg-blue-50 px-3 py-1.5 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-blue-600"></span> Reviewing
+                        </span>
                     @elseif($application->status === 'accepted')
-                        <span class="badge bg-success p-2">Accepted</span>
+                        <span class="inline-flex items-center gap-1 text-sm font-bold text-green-600 bg-green-50 px-3 py-1.5 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-green-600"></span> Accepted
+                        </span>
                     @else
-                        <span class="badge bg-danger p-2">Declined</span>
+                        <span class="inline-flex items-center gap-1 text-sm font-bold text-red-600 bg-red-50 px-3 py-1.5 rounded-full">
+                            <span class="w-2 h-2 rounded-full bg-red-600"></span> Declined
+                        </span>
                     @endif
                 </div>
 
                 @if($application->user)
-                    <div class="alert alert-info mb-3">
-                        <strong>Account Created:</strong><br>
-                        Email: {{ $application->user->email }}<br>
-                        Name: {{ $application->user->name }}
-                    </div>
+                <div class="bg-blue-50 p-4 rounded-lg mb-6">
+                    <p class="text-xs text-blue-600 font-bold mb-2">Account Created</p>
+                    <p class="text-sm text-on-surface">Email: {{ $application->user->email }}</p>
+                    <p class="text-sm text-on-surface">Name: {{ $application->user->name }}</p>
+                </div>
                 @endif
 
-                <div class="d-grid gap-2">
+                <div class="space-y-3">
                     @if($application->status === 'pending')
-                        <form action="{{ route('admin.application.review', $application) }}" method="POST">
+                        <form action="{{ route('admin.application.review', $application) }}" method="POST" class="w-full">
                             @csrf
-                            <button type="submit" class="btn btn-warning">Mark as Reviewing</button>
+                            <button type="submit" class="button button-warning w-full">
+                                <span class="material-symbols-outlined">search</span>
+                                Mark as Reviewing
+                            </button>
                         </form>
                     @endif
 
                     @if($application->status !== 'accepted' && $application->status !== 'declined')
-                        <form action="{{ route('admin.application.accept', $application) }}" method="POST">
+                        <form action="{{ route('admin.application.accept', $application) }}" method="POST" class="w-full">
                             @csrf
-                            <button type="submit" class="btn btn-success" onclick="return confirm('Accept this application and create user account?');">
-                                <i class="bi bi-check-circle me-2"></i>Accept & Create Account
+                            <button type="submit" class="button button-success w-full" onclick="return confirm('Accept this application and create user account?');">
+                                <span class="material-symbols-outlined">check_circle</span>
+                                Accept & Create Account
                             </button>
                         </form>
-                        <form action="{{ route('admin.application.decline', $application) }}" method="POST">
+                        <form action="{{ route('admin.application.decline', $application) }}" method="POST" class="w-full">
                             @csrf
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Decline this application?');">
-                                <i class="bi bi-x-circle me-2"></i>Decline
+                            <button type="submit" class="button button-danger w-full" onclick="return confirm('Decline this application?');">
+                                <span class="material-symbols-outlined">cancel</span>
+                                Decline
                             </button>
                         </form>
                     @endif
                 </div>
             </div>
         </div>
-
-        <a href="{{ route('admin.dashboard') }}" class="btn btn-secondary w-100">
-            <i class="bi bi-arrow-left me-2"></i>Back to Dashboard
-        </a>
     </div>
 </div>
 @endsection
