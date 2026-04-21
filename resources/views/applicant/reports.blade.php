@@ -226,35 +226,35 @@
     @endif
 
     <div class="flex justify-end">
-        <button type="button" class="px-6 py-3 bg-primary text-on-primary text-sm font-bold rounded-full shadow-lg flex items-center gap-2 hover:bg-primary-dim transition-transform" data-bs-toggle="modal" data-bs-target="#downloadModal">
+        <button type="button" onclick="document.getElementById('downloadModal').classList.remove('hidden')" class="px-6 py-3 bg-primary text-on-primary text-sm font-bold rounded-full shadow-lg flex items-center gap-2 hover:bg-primary-dim transition-transform">
             <span class="material-symbols-outlined text-[18px]">download</span>
             Download PDF
         </button>
     </div>
 </div>
 
-<div class="modal fade" id="downloadModal" tabindex="-1" aria-labelledby="downloadModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content rounded-xl">
-            <div class="modal-header border-b border-surface-container px-6 py-4">
-                <h5 class="modal-title text-lg font-bold text-on-surface" id="downloadModalLabel">Download Report</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div id="downloadModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4">
+        <div class="border-b border-surface-container px-6 py-4 flex items-center justify-between">
+            <h5 class="text-lg font-bold text-on-surface">Download Report</h5>
+            <button onclick="document.getElementById('downloadModal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="px-6 py-4">
+            <p class="text-on-surface-variant mb-4">Are you sure you want to download this report?</p>
+            <div class="bg-surface-container p-4 rounded-lg">
+                <p><strong class="text-on-surface">Report Type:</strong> <span class="text-on-surface-variant">{{ ucfirst(str_replace('_', ' ', $type)) }}</span></p>
+                <p><strong class="text-on-surface">Date Range:</strong> <span class="text-on-surface-variant">{{ ucfirst($dateRange) }}</span></p>
             </div>
-            <div class="modal-body px-6 py-4">
-                <p class="text-on-surface-variant mb-4">Are you sure you want to download this report?</p>
-                <div class="bg-surface-container p-4 rounded-lg">
-                    <p><strong class="text-on-surface">Report Type:</strong> <span class="text-on-surface-variant">{{ ucfirst(str_replace('_', ' ', $type)) }}</span></p>
-                    <p><strong class="text-on-surface">Date Range:</strong> <span class="text-on-surface-variant">{{ ucfirst($dateRange) }}</span></p>
-                </div>
-            </div>
-            <div class="modal-footer border-t border-surface-container px-6 py-4">
-                <button type="button" class="px-6 py-2.5 bg-surface-container text-on-surface text-sm font-bold rounded-lg hover:bg-surface-container-high transition-colors" data-bs-dismiss="modal">Cancel</button>
-                <form method="GET" action="{{ route('applicant.reports.download') }}" target="_blank">
-                    <input type="hidden" name="type" value="{{ $type }}">
-                    <input type="hidden" name="date_range" value="{{ $dateRange }}">
-                    <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary text-sm font-bold rounded-lg hover:bg-primary-dim transition-colors">Confirm Download</button>
-                </form>
-            </div>
+        </div>
+        <div class="border-t border-surface-container px-6 py-4 flex items-center justify-end gap-3">
+            <button onclick="document.getElementById('downloadModal').classList.add('hidden')" class="px-6 py-2.5 bg-surface-container text-on-surface text-sm font-bold rounded-lg hover:bg-surface-container-high transition-colors">Cancel</button>
+            <form method="GET" action="{{ route('applicant.reports.download') }}" target="_blank">
+                <input type="hidden" name="type" value="{{ $type }}">
+                <input type="hidden" name="date_range" value="{{ $dateRange }}">
+                <button type="submit" class="px-6 py-2.5 bg-primary text-on-primary text-sm font-bold rounded-lg hover:bg-primary-dim transition-colors">Confirm Download</button>
+            </form>
         </div>
     </div>
 </div>

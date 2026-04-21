@@ -61,6 +61,22 @@
         </div>
     </div>
 
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div class="bg-surface-container-lowest p-6 rounded-xl">
+            <p class="text-lg font-bold text-on-surface mb-4">Applications (Last 30 Days)</p>
+            <div class="h-64">
+                <canvas id="applicationsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-surface-container-lowest p-6 rounded-xl">
+            <p class="text-lg font-bold text-on-surface mb-4">Accountants Activity (Last 30 Days)</p>
+            <div class="h-64">
+                <canvas id="accountantsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div class="lg:col-span-2 bg-surface-container-lowest rounded-xl overflow-hidden">
             <div class="p-6 border-b border-surface-container">
@@ -151,37 +167,118 @@
 
             <div class="bg-surface-container-lowest rounded-xl p-6">
                 <p class="text-lg font-bold text-on-surface mb-6">Quick Actions</p>
-            <div class="space-y-3">
-                <a href="{{ route('admin.applications.index') }}" class="flex items-center gap-3 p-4 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors">
-                    <div class="p-2 bg-blue-100 rounded-lg">
-                        <span class="material-symbols-outlined text-blue-600">assignment</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-on-surface">View Applications</p>
-                        <p class="text-sm text-on-surface-variant">{{ $stats['total'] }} total applications</p>
-                    </div>
-                </a>
-                <a href="{{ route('admin.accountants.create') }}" class="flex items-center gap-3 p-4 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors">
-                    <div class="p-2 bg-green-100 rounded-lg">
-                        <span class="material-symbols-outlined text-green-600">person_add</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-on-surface">Add Accountant</p>
-                        <p class="text-sm text-on-surface-variant">Create new account</p>
-                    </div>
-                </a>
-                <a href="{{ route('admin.management.create') }}" class="flex items-center gap-3 p-4 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors">
-                    <div class="p-2 bg-purple-100 rounded-lg">
-                        <span class="material-symbols-outlined text-purple-600">admin_panel_settings</span>
-                    </div>
-                    <div>
-                        <p class="font-medium text-on-surface">Add Admin</p>
-                        <p class="text-sm text-on-surface-variant">Create new admin user</p>
-                    </div>
-                </a>
-            </div>
+                <div class="space-y-3">
+                    <a href="{{ route('admin.applications.index') }}" class="flex items-center gap-3 p-4 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors">
+                        <div class="p-2 bg-blue-100 rounded-lg">
+                            <span class="material-symbols-outlined text-blue-600">assignment</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-on-surface">View Applications</p>
+                            <p class="text-sm text-on-surface-variant">{{ $stats['total'] }} total applications</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('admin.accountants.create') }}" class="flex items-center gap-3 p-4 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors">
+                        <div class="p-2 bg-green-100 rounded-lg">
+                            <span class="material-symbols-outlined text-green-600">person_add</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-on-surface">Add Accountant</p>
+                            <p class="text-sm text-on-surface-variant">Create new account</p>
+                        </div>
+                    </a>
+                    <a href="{{ route('admin.management.create') }}" class="flex items-center gap-3 p-4 bg-surface-container hover:bg-surface-container-high rounded-lg transition-colors">
+                        <div class="p-2 bg-purple-100 rounded-lg">
+                            <span class="material-symbols-outlined text-purple-600">admin_panel_settings</span>
+                        </div>
+                        <div>
+                            <p class="font-medium text-on-surface">Add Admin</p>
+                            <p class="text-sm text-on-surface-variant">Create new admin user</p>
+                        </div>
+                    </a>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    Chart.defaults.font.family = 'Inter, sans-serif';
+    Chart.defaults.color = '#566166';
+
+    const applicationsCtx = document.getElementById('applicationsChart');
+    if (applicationsCtx) {
+        new Chart(applicationsCtx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($chartData['applications']['labels']) !!},
+                datasets: [{
+                    label: 'Applications',
+                    data: {!! json_encode($chartData['applications']['data']) !!},
+                    borderColor: '#545f73',
+                    backgroundColor: 'rgba(84, 95, 115, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxTicks: 7 }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#e8eff3' }
+                    }
+                }
+            }
+        });
+    }
+
+    const accountantsCtx = document.getElementById('accountantsChart');
+    if (accountantsCtx) {
+        new Chart(accountantsCtx, {
+            type: 'line',
+            data: {
+                labels: {!! json_encode($chartData['accountants']['labels']) !!},
+                datasets: [{
+                    label: 'Active Accountants',
+                    data: {!! json_encode($chartData['accountants']['data']) !!},
+                    borderColor: '#22c55e',
+                    backgroundColor: 'rgba(34, 197, 94, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    pointRadius: 0,
+                    pointHoverRadius: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false }
+                },
+                scales: {
+                    x: {
+                        grid: { display: false },
+                        ticks: { maxTicks: 7 }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: '#e8eff3' }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 @endsection

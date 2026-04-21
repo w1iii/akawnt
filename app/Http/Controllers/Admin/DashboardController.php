@@ -31,7 +31,48 @@ class DashboardController extends Controller
             ->orderBy('last_activity_at', 'desc')
             ->get();
 
-        return view('admin.overview', compact('stats', 'recentApplications', 'onlineAccountants'));
+        // Chart data: Applications per day for last 30 days
+        $applicationsChartLabels = [];
+        $applicationsChartData = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('M d');
+            $count = JobApplication::whereDate('created_at', now()->subDays($i))->count();
+            $applicationsChartLabels[] = $date;
+            $applicationsChartData[] = $count;
+        }
+
+        // Chart data: Applications by status
+        $statusChartData = [
+            JobApplication::where('status', 'pending')->count(),
+            JobApplication::where('status', 'reviewing')->count(),
+            JobApplication::where('status', 'accepted')->count(),
+            JobApplication::where('status', 'declined')->count(),
+        ];
+
+        // Chart data: Accountants activity per day for last 30 days
+        $accountantsChartLabels = [];
+        $accountantsChartData = [];
+        for ($i = 29; $i >= 0; $i--) {
+            $date = now()->subDays($i)->format('M d');
+            $count = User::where('role', 'accountant')
+                ->whereDate('last_activity_at', now()->subDays($i))
+                ->count();
+            $accountantsChartLabels[] = $date;
+            $accountantsChartData[] = $count;
+        }
+
+        $chartData = [
+            'applications' => [
+                'labels' => $applicationsChartLabels,
+                'data' => $applicationsChartData,
+            ],
+            'accountants' => [
+                'labels' => $accountantsChartLabels,
+                'data' => $accountantsChartData,
+            ],
+        ];
+
+        return view('admin.overview', compact('stats', 'recentApplications', 'onlineAccountants', 'chartData'));
     }
 
     /**
