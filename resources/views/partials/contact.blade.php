@@ -3,7 +3,7 @@
     {{-- Form --}}
     <div class="container">
         <div class="row g-5">
-            
+
         <!-- Info -->
             <div class="col-lg-4">
                 <div class="section-label">Contact</div>
@@ -53,6 +53,18 @@
                     @if (session('success'))
                         <div class="alert alert-success">{{ session('success') }}</div>
                     @endif
+
+                    @if (session('error'))
+                        <div class="alert alert-danger">{{ session('error') }}</div>
+                    @endif
+
+                    @error('email_unique')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+
+                    @error('phone_unique')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
 
                     <form action="{{ route('apply.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf

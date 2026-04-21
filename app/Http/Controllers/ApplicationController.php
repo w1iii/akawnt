@@ -22,12 +22,28 @@ class ApplicationController extends Controller
         $validated = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:job_applications,email',
+            'email' => 'required|email',
             'phone' => 'required|string|max:20',
             'position' => 'required|string|max:255',
             'message' => 'required|string',
             'resume' => 'required|file|mimes:pdf,doc,docx|max:5120',
         ]);
+
+        $emailExist = JobApplication::where('email', $validated['email'])->exists();
+        if ($emailExist) {
+            return redirect()->back()
+                ->with('error', 'This email address is already registered.')
+                ->with('scroll_to', 'contact')
+                ->withInput();
+        }
+
+        $phoneExist = JobApplication::where('phone', $validated['phone'])->exists();
+        if ($phoneExist) {
+            return redirect()->back()
+                ->with('error', 'This phone number is already registered.')
+                ->with('scroll_to', 'contact')
+                ->withInput();
+        }
 
         $resumePath = null;
         if ($request->hasFile('resume')) {
@@ -44,7 +60,9 @@ class ApplicationController extends Controller
             'resume_path' => $resumePath,
         ]);
 
-        return redirect()->back()->with('success', 'Your application has been submitted successfully!');
+        return redirect()->back()
+            ->with('success', 'Your application has been submitted successfully!')
+            ->with('scroll_to', 'contact');
     }
 
     /**

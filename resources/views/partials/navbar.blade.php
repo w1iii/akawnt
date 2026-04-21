@@ -1,4 +1,4 @@
- <nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
+<nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
     <div class="container">
 
         <a class="navbar-brand" href="#home">Akawnt</a>
@@ -36,7 +36,7 @@
                     </li>
                 @endif
                 <li class="nav-item ms-lg-2">
-                    <a class="nav-link nav-cta" href="#careers">Apply Now</a>
+                    <a class="nav-link nav-cta" href="#contact">Apply Now</a>
                 </li>
             </ul>
         </div>

@@ -46,7 +46,7 @@
             font-family: 'DM Sans', sans-serif;
         }
  
-        /*  Navbar*/
+/*  Navbar*/
         #mainNav {
             background: var(--paper);
             border-bottom: 1.5px solid var(--border);
@@ -64,7 +64,7 @@
             letter-spacing: -0.03em;
         }
         .navbar-brand span { color: var(--accent); }
- 
+  
         .nav-link {
             font-family: 'Syne', sans-serif;
             font-weight: 600;
@@ -493,13 +493,13 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script>
+<script>
         // Navbar shadow on scroll
         const nav = document.getElementById('mainNav');
         window.addEventListener('scroll', () => {
             nav.classList.toggle('scrolled', window.scrollY > 20);
         });
- 
+  
         // Active nav link on scroll (Scrollspy-lite)
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.nav-link');
@@ -513,5 +513,12 @@
             });
         }, { threshold: 0.4 });
         sections.forEach(s => observer.observe(s));
+
+        // Scroll to contact on form submit
+        @if(session('scroll_to'))
+            document.addEventListener('DOMContentLoaded', () => {
+                document.getElementById('{{ session('scroll_to') }}').scrollIntoView({ behavior: 'smooth' });
+            });
+        @endif
     </script>
 </html>
