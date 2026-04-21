@@ -3,58 +3,69 @@
 @section('title', 'Edit Accountant')
 
 @section('content')
-<div class="page-header">
-    <h1>Edit Accountant: {{ $accountant->name }}</h1>
-</div>
-
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+<div class="space-y-8 max-w-2xl">
+    <div class="flex justify-between items-end">
+        <div>
+            <p class="text-label-sm text-on-surface-variant tracking-[0.1em] uppercase font-semibold mb-1">Manage</p>
+            <h2 class="text-4xl font-extrabold text-primary tracking-tight">Edit Accountant</h2>
+        </div>
+        <div class="flex gap-3">
+            <a href="{{ route('admin.accountants.show', $accountant) }}" class="button button-info">View Details</a>
+            <a href="{{ route('admin.accountants.index') }}" class="button button-secondary">Back</a>
+        </div>
     </div>
-@endif
 
-<div class="card">
-    <div class="card-body">
+    @if(session('success'))
+        <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg flex items-center gap-2">
+            <span class="material-symbols-outlined text-green-600">check_circle</span>
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <div class="bg-surface-container-lowest p-8 rounded-xl">
         <form method="POST" action="{{ route('admin.accountants.update', $accountant) }}">
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
-                <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('name', $accountant->name) }}" required>
-                @error('name')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-            </div>
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-bold text-on-surface mb-2">Full Name</label>
+                    <input type="text" name="name" value="{{ old('name', $accountant->name) }}" class="w-full bg-surface-container-highest/50 border border-outline-variant/20 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all @error('name') border-red-500 @enderror" required>
+                    @error('name')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
 
-            <div class="mb-3">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $accountant->email) }}" required>
-                @error('email')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-                <div class="form-text">This email will be used for login and notifications.</div>
-            </div>
+                <div>
+                    <label class="block text-sm font-bold text-on-surface mb-2">Email Address</label>
+                    <input type="email" name="email" value="{{ old('email', $accountant->email) }}" class="w-full bg-surface-container-highest/50 border border-outline-variant/20 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all @error('email') border-red-500 @enderror" required>
+                    @error('email')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @else
+                        <p class="text-on-surface-variant text-xs mt-1">This email will be used for login and notifications.</p>
+                    @enderror
+                </div>
 
-            <div class="mb-3">
-                <label for="password" class="form-label">Password <small class="text-muted">(leave blank to keep current password)</small></label>
-                <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password">
-                @error('password')
-                    <div class="invalid-feedback">{{ $message }}</div>
-                @enderror
-                <div class="form-text">Password must be at least 8 characters long if changing.</div>
-            </div>
+                <div>
+                    <label class="block text-sm font-bold text-on-surface mb-2">Password <span class="text-on-surface-variant font-normal">(leave blank to keep current)</span></label>
+                    <input type="password" name="password" class="w-full bg-surface-container-highest/50 border border-outline-variant/20 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all @error('password') border-red-500 @enderror">
+                    @error('password')
+                        <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                    @else
+                        <p class="text-on-surface-variant text-xs mt-1">Password must be at least 8 characters long if changing.</p>
+                    @enderror
+                </div>
 
-            <div class="mb-3">
-                <label for="password_confirmation" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation">
-            </div>
+                <div>
+                    <label class="block text-sm font-bold text-on-surface mb-2">Confirm Password</label>
+                    <input type="password" name="password_confirmation" class="w-full bg-surface-container-highest/50 border border-outline-variant/20 rounded-lg px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 outline-none transition-all">
+                </div>
 
-            <div class="d-flex gap-2">
-                <button type="submit" class="btn btn-primary">Update Accountant</button>
-                <a href="{{ route('admin.accountants.show', $accountant) }}" class="btn btn-info">View Details</a>
-                <a href="{{ route('admin.accountants.index') }}" class="btn btn-secondary">Back to List</a>
+                <div class="flex gap-3 pt-2">
+                    <button type="submit" class="button button-primary">Update Accountant</button>
+                    <a href="{{ route('admin.accountants.show', $accountant) }}" class="button button-info">View Details</a>
+                    <a href="{{ route('admin.accountants.index') }}" class="button button-secondary">Back to List</a>
+                </div>
             </div>
         </form>
     </div>

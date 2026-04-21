@@ -54,6 +54,7 @@ Route::post('/admin/logout', [AuthController::class, 'logout'])->middleware('aut
 // Admin Routes
 Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/applications', [AdminDashboardController::class, 'applications'])->name('applications.index');
     Route::get('/applications/{application}', [AdminDashboardController::class, 'show'])->name('application.show');
     Route::post('/applications/{application}/accept', [ApplicationController::class, 'accept'])->name('application.accept');
     Route::post('/applications/{application}/decline', [ApplicationController::class, 'decline'])->name('application.decline');
@@ -76,6 +77,13 @@ Route::middleware(['auth:admin', 'admin'])->prefix('admin')->name('admin.')->gro
     Route::get('/accountants/{accountant}/edit', [AccountantController::class, 'edit'])->name('accountants.edit');
     Route::put('/accountants/{accountant}', [AccountantController::class, 'update'])->name('accountants.update');
     Route::delete('/accountants/{accountant}', [AccountantController::class, 'destroy'])->name('accountants.destroy');
+
+    // Reports
+    Route::get('/reports', '\App\Http\Controllers\Admin\AdminReportsController@index')->name('reports.index');
+    Route::get('/reports/applications/excel', '\App\Http\Controllers\Admin\AdminReportsController@exportApplicationsExcel')->name('reports.applications.excel');
+    Route::get('/reports/applications/pdf', '\App\Http\Controllers\Admin\AdminReportsController@exportApplicationsPdf')->name('reports.applications.pdf');
+    Route::get('/reports/accountants/excel', '\App\Http\Controllers\Admin\AdminReportsController@exportAccountantsExcel')->name('reports.accountants.excel');
+    Route::get('/reports/accountants/pdf', '\App\Http\Controllers\Admin\AdminReportsController@exportAccountantsPdf')->name('reports.accountants.pdf');
 });
 
 // Applicant Routes

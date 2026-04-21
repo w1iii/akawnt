@@ -10,9 +10,34 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     /**
-     * Show admin dashboard with all applications
+     * Show admin overview dashboard
      */
-    public function index(Request $request)
+    public function index()
+    {
+        $stats = [
+            'total' => JobApplication::count(),
+            'pending' => JobApplication::where('status', 'pending')->count(),
+            'reviewing' => JobApplication::where('status', 'reviewing')->count(),
+            'accepted' => JobApplication::where('status', 'accepted')->count(),
+            'declined' => JobApplication::where('status', 'declined')->count(),
+            'accountants' => User::where('role', 'accountant')->count(),
+        ];
+
+        $recentApplications = JobApplication::orderBy('created_at', 'desc')->limit(10)->get();
+
+        // Get online accountants (active in last 5 minutes)
+        $onlineAccountants = User::where('role', 'accountant')
+            ->where('last_activity_at', '>=', now()->subMinutes(5))
+            ->orderBy('last_activity_at', 'desc')
+            ->get();
+
+        return view('admin.overview', compact('stats', 'recentApplications', 'onlineAccountants'));
+    }
+
+    /**
+     * Show all job applications
+     */
+    public function applications(Request $request)
     {
         $query = JobApplication::query();
 
@@ -39,10 +64,9 @@ class DashboardController extends Controller
             'reviewing' => JobApplication::where('status', 'reviewing')->count(),
             'accepted' => JobApplication::where('status', 'accepted')->count(),
             'declined' => JobApplication::where('status', 'declined')->count(),
-            'accountants' => User::where('role', 'accountant')->count(),
         ];
 
-        return view('admin.dashboard', compact('applications', 'stats'));
+        return view('admin.applications.index', compact('applications', 'stats'));
     }
 
     /**
