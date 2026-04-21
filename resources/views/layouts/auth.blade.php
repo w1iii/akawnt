@@ -49,11 +49,59 @@
             font-weight: 800;
         }
 
+        /* Navbar */
+        .auth-navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 1.5rem 3rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .auth-navbar-brand {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .auth-navbar-brand:hover {
+            color: var(--ink);
+            opacity: 0.8;
+        }
+
+        .auth-navbar-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .auth-nav-link {
+            font-family: 'Syne', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: color 0.2s;
+        }
+
+        .auth-nav-link:hover {
+            color: var(--ink);
+        }
+
         /* Auth Layout */
         .auth-container {
             display: flex;
             min-height: 100vh;
             align-items: stretch;
+            padding-top: 70px;
         }
 
         .auth-left {
@@ -282,6 +330,13 @@
 </head>
 
 <body>
+    <nav class="auth-navbar">
+        <a href="{{ route('home') }}" class="auth-navbar-brand">Akawnt</a>
+        <div class="auth-navbar-nav">
+            <a href="{{ route('home') }}" class="auth-nav-link">Home</a>
+        </div>
+    </nav>
+
     <div class="auth-container">
         @yield('content')
     </div>
